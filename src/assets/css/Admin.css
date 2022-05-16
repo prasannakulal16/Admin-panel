@@ -1,0 +1,43 @@
+.searchbox{
+    width: 100%;
+    margin: 30px 0;
+    border-radius: 5px;
+    border: 1px solid rgba(109, 106, 106, 0.5);
+    -webkit-background-clip: padding-box; 
+}
+
+.paginatonButton{
+    width: 80%;
+    height: 40px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    color: black;
+    
+}
+
+.paginatonButton a{
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid black;
+    color: black;
+    cursor: pointer;
+}
+
+.paginatonButton a:hover{
+    color: white;
+    background: blue;
+}
+
+.paginationActive a{
+    color: white !important;
+    background: blue;
+}
+
+@media (max-width:600px){
+    .table{
+        display: flow-root !important;
+        overflow: auto;
+    }
+}
