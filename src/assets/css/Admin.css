@@ -7,32 +7,37 @@
 }
 
 .paginatonButton{
-    width: 80%;
     height: 40px;
     list-style: none;
     display: flex;
     justify-content: center;
     color: black;
+   
     
 }
 
 .paginatonButton a{
+    font-weight: bold;
     padding: 10px;
     margin: 8px;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid rgb(49, 48, 48);
     color: black;
     cursor: pointer;
+    border-radius: 20px !important;
+    padding: 11px 15px;
 }
 
 .paginatonButton a:hover{
     color: white;
     background: blue;
+    border: none;
 }
 
 .paginationActive a{
     color: white !important;
     background: blue;
+    border: none;
 }
 
 @media (max-width:600px){
@@ -41,3 +46,26 @@
         overflow: auto;
     }
 }
+
+.anticon{
+    vertical-align: middle !important;
+}
+
+.previousButton {
+    padding: 11px 11px !important;
+    font-weight: bold;
+}
+
+.nextButton {
+    padding: 11px 11px !important;
+}
+
+.welcomeText {
+    font-weight: 900;
+    font-size: 3.5em;
+  }
+  
+  .welcomeText .letter {
+    display: inline-block;
+    line-height: 1em;
+  }

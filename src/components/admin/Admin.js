@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined,LeftOutlined,RightOutlined } from "@ant-design/icons";
 import "../../assets/css/Admin.css";
-import Button from "../global/Button";
+import { Button, SelectedDeleteButton } from "../global/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { store } from "../../redux/store";
 import { deleteUser } from "./userSlice";
-import {deleteSelectedUser} from "./userSlice"
+import { deleteSelectedUser } from "./userSlice";
 import ReactPaginate from "react-paginate";
+import anime from "animejs";
 
 function Admin() {
   const dispatch = useDispatch();
   const users = useSelector((store) => store.users);
 
+  const [List, setList] = useState(users);
+  useEffect(() => {
+    setList(users);
+  }, [users]);
 
+  const [selectedList, setSelectedList] = useState([]);
+  const [MasterChecked, setMasterChecked] = useState(false);
 
-
-  const [List,setList] =useState(users)
-  useEffect(()=>{
-    setList(users)
-  },[users])
-
-  const [selectedList,setSelectedList] =useState([])
-  const [MasterChecked,setMasterChecked] =useState(false)
-  
   const handleUserDelete = (id) => {
-    console.log("id is",id)
-    
-    dispatch(deleteUser({ id }));
-  
-  };
 
+    dispatch(deleteUser({ id }));
+  };
 
   const [pageNumber, setPageNumber] = useState(0);
   const usersPerPage = 10;
@@ -38,54 +32,38 @@ function Admin() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAllCheck =(e)=>{
-    let templList=List;
-    const user = templList.map((user)=>(
-      {...user,selected:e.target.checked}
-
-    ))
-    setMasterChecked(e.target.checked)
-    setList(user)
-    setSelectedList(user.filter((e)=>e.selected))
-    console.log("selected list",selectedList)
-  }
-
-  const onItemCheck=(e,item)=>{
+  const handleAllCheck = (e) => {
     let templList = List;
-    const user= templList.map((user)=>{
-      if(user.id===item.id){
-        user={...user}
-        user.selected=e.target.checked
-        
-        console.log("user",user)
+    const user = templList.map((user) => ({
+      ...user,
+      selected: e.target.checked,
+    }));
+    setMasterChecked(e.target.checked);
+    setList(user);
+    setSelectedList(user.filter((e) => e.selected));
+  };
 
+  const onItemCheck = (e, item) => {
+    let templList = List;
+    const user = templList.map((user) => {
+      if (user.id === item.id) {
+        user = { ...user };
+        user.selected = e.target.checked;
       }
       return user;
     });
-    console.log("templist",user)
     const totalItems = List.length;
-    console.log("totalitems",totalItems)
     const totalCheckedItems = user.filter((e) => e.selected).length;
-    console.log("totalitems length",totalCheckedItems)
-    setMasterChecked(totalItems===totalCheckedItems)
-    setList(user)
-    setSelectedList(user.filter((e)=>e.selected))
-    
+    setMasterChecked(totalItems === totalCheckedItems);
+    setList(user);
+    setSelectedList(user.filter((e) => e.selected));
+  };
 
-
-  }
-
-
-  const selectedUserDelete=()=> {
-
-    setSelectedList(List.filter((e)=>(e.selected)))
-    const temp= selectedList.map((item)=>(
-      item.id
-    ))
-      console.log("temp is",temp)
-
-      dispatch(deleteSelectedUser(selectedList))
-  }
+  const selectedUserDelete = () => {
+    setSelectedList(List.filter((e) => e.selected));
+    const temp = selectedList.map((item) => item.id);
+    dispatch(deleteSelectedUser(selectedList));
+  };
 
   const displayUsers = Object.values(List)
     .filter((SingleUser) => {
@@ -107,9 +85,7 @@ function Admin() {
     })
     .slice(pagesVisited, pagesVisited + usersPerPage)
     .map((user) => {
-     
       return (
-        
         <tbody key={user.id} className={user.selected ? "selected" : ""}>
           <tr>
             <td scope="row" className="border-transparent pl-10">
@@ -117,10 +93,9 @@ function Admin() {
                 className="h-5 w-5"
                 type="checkbox"
                 name="foo"
-                checked={user.selected} 
-                onChange={(e) => onItemCheck(e,user)}
+                checked={user.selected}
+                onChange={(e) => onItemCheck(e, user)}
                 id={user.id}
-                
               />
             </td>
             <td className="border-transparent">{user.name}</td>
@@ -140,7 +115,7 @@ function Admin() {
       );
     });
 
-    //"even:bg-[#EDF2F7] odd:bg-white"
+  //"even:bg-[#EDF2F7] odd:bg-white"
   const pageCount = Math.ceil(users.length / usersPerPage);
 
   const changePage = ({ selected }) => {
@@ -148,11 +123,9 @@ function Admin() {
   };
 
 
-
-
   const renderUser = () => (
     <>
-      <table className="table">
+      <table className="table mb-20">
         <thead>
           <tr className="bg-blue-600 text-white">
             <th scope="col" className="pl-10">
@@ -161,8 +134,7 @@ function Admin() {
                 className="h-5 w-5"
                 checked={MasterChecked}
                 id="mastercheck"
-                onChange={(e)=>handleAllCheck(e)}
-                
+                onChange={(e) => handleAllCheck(e)}
               />
             </th>
             <th scope="col">Name</th>
@@ -173,28 +145,34 @@ function Admin() {
         </thead>
         {displayUsers}
       </table>
-   
-      <ReactPaginate
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={"paginatonButton"}
-        previousLinkClassName={"previousButton"}
-        nextLinkClassName={"nextButton"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"paginationActive"}
-      />
     </>
   );
+
   
+   useEffect(()=>{
+  
+    anime({
+      targets: '.duration-demo .el',
+      translateX: -100,
+      duration: 5000,
+      delay: 1000,
+    });
+  },[])
+  
+
   return (
     <div className="adminPanel bg-cyan-300 pt-4 pb-4">
       <div className="container">
-        <div className="bg-blue-600 p-3">
+        <div className="row">
+        <div className="col-lg-2 p-3">
           <Link to="/add-user">
-            <Button>Add User</Button>
+            <Button >ADD USER</Button>
           </Link>
+          
+        </div>
+        <div className="col-lg-10 text-right duration-demo">
+        <h2 className="welcomeText pt-11 font-extrabold text-4xl el" >WELCOME TO ADMIN PANEL</h2>
+        </div>
         </div>
         <input
           type="text"
@@ -206,12 +184,27 @@ function Admin() {
         ></input>
 
         {users.length ? renderUser() : <p>No user</p>}
-      
+
         <div className="row">
           <div className="col-lg-3">
-            <Button onClick={() => selectedUserDelete()}>Delete selected </Button>
+            <SelectedDeleteButton onClick={() => selectedUserDelete()}>
+              DELETE SELECTED
+            </SelectedDeleteButton>
           </div>
-          <div className="col-lg-9"></div>
+          <div className="col-lg-9">
+            <ReactPaginate
+              previousLabel={<LeftOutlined className="text-justify"/>}
+              nextLabel={<RightOutlined />}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={"paginatonButton"}
+              previousLinkClassName={"previousButton"}
+              nextLinkClassName={"nextButton"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+              
+            />
+          </div>
         </div>
       </div>
     </div>

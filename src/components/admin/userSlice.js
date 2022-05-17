@@ -1,91 +1,88 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
-
-import Edituser from "./Edituser";
 
 const initialState = [
   {
     id: "1",
     name: "Timus",
     email: "admin@gmail.com",
-    role: "admin",
+    role: "Admin",
     selected: false,
   },
   {
     id: "2",
-    name: "boat",
-    email: "admin2@gmail.com",
-    role: "user",
+    name: "Boat",
+    email: "user@gmail.com",
+    role: "User",
     selected: false,
   },
   {
     id: "3",
-    name: "amzon",
-    email: "admin3@gmail.com",
-    role: "editor",
+    name: "Amazon",
+    email: "member@gmail.com",
+    role: "Member",
     selected: false,
   },
   {
     id: "4",
-    name: "flipkart",
-    email: "admin4@gmail.com",
-    role: "viewer",
+    name: "Flipkart",
+    email: "viewer@gmail.com",
+    role: "Viewer",
     selected: false,
   },
   {
     id: "5",
-    name: "oyo",
-    email: "admin@gmail.com",
-    role: "admin",
+    name: "Oyo",
+    email: "editor@gmail.com",
+    role: "Editor",
     selected: false,
   },
   {
     id: "6",
-    name: "samsung",
-    email: "admin2@gmail.com",
-    role: "user",
+    name: "Samsung",
+    email: "commentor@gmail.com",
+    role: "Commentor",
     selected: false,
   },
   {
     id: "7",
-    name: "oneplus",
-    email: "admin3@gmail.com",
-    role: "editor",
+    name: "Oneplus",
+    email: "support@gmail.com",
+    role: "Support",
     selected: false,
   },
   {
     id: "8",
-    name: "redmi",
-    email: "admin4@gmail.com",
-    role: "viewer",
+    name: "Redmi",
+    email: "developer@gmail.com",
+    role: "Developer",
     selected: false,
   },
   {
     id: "9",
-    name: "oppo",
-    email: "admin@gmail.com",
-    role: "admin",
+    name: "Oppo",
+    email: "tester@gmail.com",
+    role: "Tester",
     selected: false,
   },
   {
     id: "10",
-    name: "lava",
-    email: "admin2@gmail.com",
-    role: "user",
+    name: "Lava",
+    email: "lead@gmail.com",
+    role: "Lead",
     selected: false,
   },
   {
     id: "11",
-    name: "nokia",
-    email: "admin3@gmail.com",
-    role: "editor",
+    name: "Nokia",
+    email: "manager@gmail.com",
+    role: "Manager",
     selected: false,
   },
   {
     id: "12",
-    name: "sony",
-    email: "admin4@gmail.com",
-    role: "viewer",
+    name: "Sony",
+    email: "marketting@gmail.com",
+    role: "Marketting",
     selected: false,
   },
 ];
@@ -108,16 +105,13 @@ const userSlice = createSlice({
     },
     deleteUser: (state, action) => {
       const { id } = action.payload;
-      console.log("payload id", state);
       const existingUser = state.find((user) => user.id === id);
-      console.log("exsiting user", existingUser);
       if (existingUser) {
         return state.filter((user) => user.id !== id);
       }
     },
     deleteSelectedUser: (state, action) => {
       const { id } = action.payload;
-      console.log("payload", action.payload);
       const res=action.payload.map((item) => item.id);
       if (true) {
         return state.filter((user) =>
