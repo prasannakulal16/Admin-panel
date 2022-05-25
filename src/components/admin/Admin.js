@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { EditOutlined, DeleteOutlined,LeftOutlined,RightOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import "../../assets/css/Admin.css";
 import { Button, SelectedDeleteButton } from "../global/Button";
 import { Link } from "react-router-dom";
@@ -7,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteUser } from "./userSlice";
 import { deleteSelectedUser } from "./userSlice";
 import ReactPaginate from "react-paginate";
-import anime from "animejs";
+import { ToastContainer, toast } from "react-toastify";
 
 function Admin() {
   const dispatch = useDispatch();
@@ -22,8 +27,10 @@ function Admin() {
   const [MasterChecked, setMasterChecked] = useState(false);
 
   const handleUserDelete = (id) => {
-
     dispatch(deleteUser({ id }));
+    toast.dark(` User is deleted Successfully`, {
+      position: "top-right",
+    });
   };
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -87,8 +94,11 @@ function Admin() {
     .map((user) => {
       return (
         <tbody key={user.id} className={user.selected ? "selected" : ""}>
-          <tr>
-            <td scope="row" className="border-transparent pl-10">
+          <tr className="border-4  font-serif bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200">
+            <td
+              scope="row"
+              className="border-transparent pl-10 tablePaddingMobile"
+            >
               <input
                 className="h-5 w-5"
                 type="checkbox"
@@ -101,7 +111,7 @@ function Admin() {
             <td className="border-transparent">{user.name}</td>
             <td className="border-transparent">{user.email}</td>
             <td className="border-transparent">{user.role}</td>
-            <td className="border-transparent">
+            <td className="border-transparent editDeleteIcons">
               <Link to={`edit-user/${user.id}`}>
                 <EditOutlined className="text-xl" />
               </Link>
@@ -115,20 +125,18 @@ function Admin() {
       );
     });
 
-  //"even:bg-[#EDF2F7] odd:bg-white"
   const pageCount = Math.ceil(users.length / usersPerPage);
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
 
-
   const renderUser = () => (
     <>
       <table className="table mb-20">
         <thead>
           <tr className="bg-blue-600 text-white">
-            <th scope="col" className="pl-10">
+            <th scope="col" className="pl-10 tablePaddingMobile">
               <input
                 type="checkbox"
                 className="h-5 w-5"
@@ -148,36 +156,26 @@ function Admin() {
     </>
   );
 
-  
-   useEffect(()=>{
-  
-    anime({
-      targets: '.duration-demo .el',
-      translateX: -100,
-      duration: 5000,
-      delay: 1000,
-    });
-  },[])
-  
-
   return (
-    <div className="adminPanel bg-cyan-300 pt-4 pb-4">
+    <div className="adminPanel bg-gradient-to-r from-indigo-500 pt-4 pb-4">
       <div className="container">
-        <div className="row">
-        <div className="col-lg-2 p-3">
-          <Link to="/add-user">
-            <Button >ADD USER</Button>
-          </Link>
-          
-        </div>
-        <div className="col-lg-10 text-right duration-demo">
-        <h2 className="welcomeText pt-11 font-extrabold text-4xl el" >WELCOME TO ADMIN PANEL</h2>
-        </div>
+        <div className="row adminHeadingRow">
+          <div className="col-lg-2 p-3">
+            <Link to="/add-user">
+              <Button>ADD USER</Button>
+            </Link>
+          </div>
+          <div className="col-lg-10 text-right">
+            <h2 className="welcomeText pt-11 font-extrabold text-4xl lg:text-right">
+              WELCOME TO ADMIN PANEL
+            </h2>
+          </div>
+          <ToastContainer />
         </div>
         <input
           type="text"
-          placeholder=" Search by name,email or role"
-          className="searchbox p-2"
+          placeholder="Search by name,email or role"
+          className="searchbox p-2 font-serif focus:outline-none"
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}
@@ -186,14 +184,14 @@ function Admin() {
         {users.length ? renderUser() : <p>No user</p>}
 
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-3 col-md-6 col-sm-12 selectedDeleteMobile">
             <SelectedDeleteButton onClick={() => selectedUserDelete()}>
               DELETE SELECTED
             </SelectedDeleteButton>
           </div>
-          <div className="col-lg-9">
+          <div className="col-lg-9 col-md-6 col-sm-12">
             <ReactPaginate
-              previousLabel={<LeftOutlined className="text-justify"/>}
+              previousLabel={<LeftOutlined className="text-justify" />}
               nextLabel={<RightOutlined />}
               pageCount={pageCount}
               onPageChange={changePage}
@@ -202,7 +200,6 @@ function Admin() {
               nextLinkClassName={"nextButton"}
               disabledClassName={"paginationDisabled"}
               activeClassName={"paginationActive"}
-              
             />
           </div>
         </div>

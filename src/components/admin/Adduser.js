@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {Button} from "../global/Button";
+import { Button } from "../global/Button";
 import InputField from "../global/InputField";
 import { addUser } from "./userSlice";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Adduser() {
   const dispatch = useDispatch();
@@ -37,15 +39,23 @@ function Adduser() {
           role: values.role,
         })
       );
-      navigate("/");
+      toast.success(` User is added Successfully`, {
+        position: "top-right",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     }
   };
- 
 
   return (
     <div>
-      <div className="mt-10 max-w-xl mx-auto ">
-        <h1 className="flex justify-center text-4xl font-extrabold mb-10">ADD USER</h1>
+      <div className="mt-10 max-w-xl mx-auto addUserMobile">
+        <h1 className="flex justify-center text-4xl font-extrabold mb-10">
+          ADD USER
+        </h1>
+        <ToastContainer />
         <InputField
           label="Name"
           value={values.name}

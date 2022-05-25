@@ -1,71 +1,110 @@
-.searchbox{
-    width: 100%;
-    margin: 30px 0;
-    border-radius: 5px;
-    border: 1px solid rgba(109, 106, 106, 0.5);
-    -webkit-background-clip: padding-box; 
+
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body, #root, .App {
+  height: 100%;
 }
 
-.paginatonButton{
-    height: 40px;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    color: black;
-   
-    
+.searchbox {
+  width: 100%;
+  margin: 30px 0;
+  border-radius: 5px;
+  border: 1px solid rgba(109, 106, 106, 0.5);
+  -webkit-background-clip: padding-box;
 }
 
-.paginatonButton a{
-    font-weight: bold;
-    padding: 10px;
-    margin: 8px;
-    border-radius: 5px;
-    border: 1px solid rgb(49, 48, 48);
-    color: black;
-    cursor: pointer;
-    border-radius: 20px !important;
-    padding: 11px 15px;
+.paginatonButton {
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  color: black;
 }
 
-.paginatonButton a:hover{
-    color: white;
-    background: blue;
-    border: none;
+.adminPanel{
+  min-width: 100%;
+  min-height: -webkit-fill-available;
 }
 
-.paginationActive a{
-    color: white !important;
-    background: blue;
-    border: none;
+.paginatonButton a {
+  font-weight: bold;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid rgb(49, 48, 48);
+  color: black;
+  cursor: pointer;
+  border-radius: 20px !important;
+  padding: 11px 15px;
 }
 
-@media (max-width:600px){
-    .table{
-        display: flow-root !important;
-        overflow: auto;
-    }
+.paginatonButton a:hover {
+  color: white;
+  background: blue;
+  border: none;
 }
 
-.anticon{
-    vertical-align: middle !important;
+.paginationActive a {
+  color: white !important;
+  background: blue;
+  border: none;
+}
+
+@media (max-width: 600px) {
+  .table {
+    display: flow-root !important;
+    overflow: auto;
+  }
+  .welcomeText {
+    text-align: center;
+  }
+  .adminHeadingRow{
+    flex-direction: column-reverse;
+  }
+  .addUserMobile{
+    padding: 0 20px;
+  }
+  .editUserMobile{
+    padding: 0 20px;
+  }
+}
+
+.anticon {
+  vertical-align: middle !important;
 }
 
 .previousButton {
-    padding: 11px 11px !important;
-    font-weight: bold;
+  padding: 11px 11px !important;
+  font-weight: bold;
 }
 
 .nextButton {
-    padding: 11px 11px !important;
+  padding: 11px 11px !important;
 }
 
 .welcomeText {
-    font-weight: 900;
-    font-size: 3.5em;
+  font-weight: 900;
+  font-size: 3.5em;
+}
+
+.welcomeText .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+
+@media (max-width: 600px) {
+  .selectedDeleteMobile {
+    text-align: center;
+    margin-bottom: 40px;
   }
-  
-  .welcomeText .letter {
-    display: inline-block;
-    line-height: 1em;
+
+  .editDeleteIcons {
+    display: flex;
   }
+
+  .tablePaddingMobile{
+    padding-left: 4px !important;
+  }
+}

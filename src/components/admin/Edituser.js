@@ -35,7 +35,7 @@ function Edituser() {
   };
   return (
     <div>
-      <div className="mt-10 max-w-xl mx-auto">
+      <div className="mt-10 max-w-xl mx-auto editUserMobile">
         <h1 className="flex justify-center text-4xl font-extrabold mb-10">
           EDIT USER
         </h1>
