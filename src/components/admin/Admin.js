@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   EditOutlined,
   DeleteOutlined,
   LeftOutlined,
   RightOutlined,
+  DoubleLeftOutlined,
+  DoubleRightOutlined
 } from "@ant-design/icons";
 import "../../assets/css/Admin.css";
 import { Button, SelectedDeleteButton } from "../global/Button";
@@ -14,11 +16,24 @@ import { deleteSelectedUser } from "./userSlice";
 import ReactPaginate from "react-paginate";
 import { ToastContainer, toast } from "react-toastify";
 
+
 function Admin() {
+
+
+
   const dispatch = useDispatch();
-  const users = useSelector((store) => store.users);
+  const users = useSelector((store) => store.users.item);
+
+  const [selectedRow, setSelectedRow] = useState(-1);
+
+  const handlerRowClicked = useCallback((event) => {
+       const { id } = event.currentTarget;
+       setSelectedRow(id);
+   }, [])
+  
 
   const [List, setList] = useState(users);
+
   useEffect(() => {
     setList(users);
   }, [users]);
@@ -27,6 +42,8 @@ function Admin() {
   const [MasterChecked, setMasterChecked] = useState(false);
 
   const handleUserDelete = (id) => {
+
+    console.log("actual id form userdelete is",id)
     dispatch(deleteUser({ id }));
     toast.dark(` User is deleted Successfully`, {
       position: "top-right",
@@ -72,6 +89,8 @@ function Admin() {
     dispatch(deleteSelectedUser(selectedList));
   };
 
+
+
   const displayUsers = Object.values(List)
     .filter((SingleUser) => {
       if (searchTerm === "") {
@@ -94,7 +113,7 @@ function Admin() {
     .map((user) => {
       return (
         <tbody key={user.id} className={user.selected ? "selected" : ""}>
-          <tr className="border-4  font-serif bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200">
+          <tr onClick={handlerRowClicked} className={selectedRow === user.id ? 'selected': ''}>
             <td
               scope="row"
               className="border-transparent pl-10 tablePaddingMobile"
@@ -125,15 +144,27 @@ function Admin() {
       );
     });
 
+
+
   const pageCount = Math.ceil(users.length / usersPerPage);
+  
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
 
+  const handleNext= ({ selected })=>{
+    setPageNumber(pageCount-1)
+    // setPageNumber(selected);
+  }
+  const handlePrev= ()=>{
+    setPageNumber(pageCount+1-pageCount)
+  }
+
+
   const renderUser = () => (
     <>
-      <table className="table mb-20">
+      <table className="table mb-20" id="mtTable">
         <thead>
           <tr className="bg-blue-600 text-white">
             <th scope="col" className="pl-10 tablePaddingMobile">
@@ -156,6 +187,8 @@ function Admin() {
     </>
   );
 
+
+
   return (
     <div className="adminPanel bg-gradient-to-r from-indigo-500 pt-4 pb-4">
       <div className="container">
@@ -166,7 +199,7 @@ function Admin() {
             </Link>
           </div>
           <div className="col-lg-10 text-right">
-            <h2 className="welcomeText pt-11 font-extrabold text-4xl lg:text-right">
+            <h2 className="welcomeText pt-11 font-extrabold text-4xl lg:text-right leading-[60px]">
               WELCOME TO ADMIN PANEL
             </h2>
           </div>
@@ -189,7 +222,8 @@ function Admin() {
               DELETE SELECTED
             </SelectedDeleteButton>
           </div>
-          <div className="col-lg-9 col-md-6 col-sm-12">
+          <div className="col-lg-9 col-md-6 col-sm-12 flex justify-center">
+          <button onClick={handlePrev} className="border-2 border-black px-[12px] pb-[2px] mt-[-10px] rounded-full hidden lg:block h-[45px]" ><DoubleLeftOutlined /></button>
             <ReactPaginate
               previousLabel={<LeftOutlined className="text-justify" />}
               nextLabel={<RightOutlined />}
@@ -200,7 +234,10 @@ function Admin() {
               nextLinkClassName={"nextButton"}
               disabledClassName={"paginationDisabled"}
               activeClassName={"paginationActive"}
-            />
+            /> 
+            <button onClick={handleNext} className="border-2 border-black px-[12px] pb-[2px] mt-[-10px] rounded-full hidden lg:block h-[45px]"><DoubleRightOutlined /></button>
+            <br>
+            </br>
           </div>
         </div>
       </div>

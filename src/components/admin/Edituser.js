@@ -9,7 +9,7 @@ function Edituser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const users = useSelector((store) => store.users);
+  const users = useSelector((store) => store.users.item);
 
   const existingUser = users.filter((user) => user.id === params.id);
 
